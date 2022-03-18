@@ -1,6 +1,10 @@
 <?php 
 session_start();
-include 'database.php';
+require_once ('./initdb.php');
+require_once ('./functions.php');
+
+setCustomerID();
+// session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +103,7 @@ include 'database.php';
 				<div class="block-18 text-center">
 				  <div class="text">
 					  <div class="icon"><i class="fa fa-cutlery fa-2xx" aria-hidden="true"></i></div>
-					  <strong class="text" style="color: #c49b63"><?php echo count($pica) + count($jela);  ?></strong>
+					  <strong class="text" style="color: #c49b63"><?php echo count($menu);  ?></strong>
 					  <span>Raznovrsnih pića i jela</span>
 				  </div>
 				</div>
@@ -356,7 +360,7 @@ include 'database.php';
 		              			<div class="menu-wrap">
 								  <a href="jelovnik.html" class="menu-img img mb-4" style="background-image: url(images/lazanja.jpg);"></a>
 		              				<div class="text">
-		              					<h3><a href="#">Hot Cake Honey</a></h3>
+		              					<h3><a href="#">Lazanja</a></h3>
 		              					<p>Mleveno juneće meso, pelat, gauda, beli, crni luk, biber, crveno vino i origano</p>
 		              					<p class="price"><span>790 rsd</span></p>
 		              					<p><a href="jelovnik.html" class="btn btn-primary btn-outline-nov">Ceo jelovnik</a></p>

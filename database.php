@@ -177,7 +177,7 @@
                 }
                 echo "<form action=\"\" method=\"POST\" target=\"\" onSubmit=\"return true\">";
                 echo "<input type=\"hidden\" name=\"id\" value=\"" . $this->ID . "\">";
-                echo "<button type=\"submit\" style=\"float:right;background-color:transparent;border:none;color:#c49b63;border-bottom:0.1px solid #524f4f;cursor:pointer\">+ Poruči</button>";
+                echo "<button type=\"submit\" class=\"poruci\">+ Poruči</button>";
                 echo "</form>";
                 echo "</div>";
                 echo "</div>";
@@ -223,7 +223,7 @@
                 echo "</div>";
                 echo "<form action=\"\" method=\"POST\" target=\"\" onSubmit=\"return true\">";
                 echo "<input type=\"hidden\" name=\"id\" value=\"" . $this->ID . "\">";
-                echo "<button type=\"submit\" style=\"float:right;background-color:transparent;border:none;color:#c49b63;border-bottom:0.1px solid #524f4f;cursor:pointer\">+ Poruči</button>";
+                echo "<button type=\"submit\" class=\"poruci\">+ Poruči</button>";
                 echo "</form>";
                 echo "</div>";
                 echo "</div>";

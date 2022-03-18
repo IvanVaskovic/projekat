@@ -1,16 +1,13 @@
 <?php
 session_start();
+// unset($_SESSION["cart"]);
+// var_dump($_SESSION['cart']);
 
-include_once "database.php";
+require_once ('./initdb.php');
+require_once ('./functions.php');
 
 $status = "";
 if (!isset($_SESSION["cart"])) $_SESSION["cart"]=[];
-
-if (isset($_POST["id"]) && $_POST["id"] != "") {
-	$id = $_POST["id"];
-	array_push($_SESSION["cart"],$id);
-	$status = "";
-}
 
 ?>
 
@@ -34,14 +31,14 @@ if (isset($_POST["id"]) && $_POST["id"] != "") {
 	<?php include "nav.php" ?>
 
 
-	<section class="home-slider owl-carousel">
+	<section class="home-slider owl-carousel" style="height:450px;">
 
-		<div class="slider-item" style="background-image: url(images/meni.jpg);" data-stellar-background-ratio="0.5">
+		<div class="slider-item" style="background-image: url(images/meni.jpg);height:500px;" data-stellar-background-ratio="0.5">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row slider-text justify-content-center align-items-center">
 
-					<div class="col-md-7 col-sm-12 text-center ftco-animate">
+					<div class="col-md-7 col-sm-12 text-center ftco-animate" style="margin-top:-200px;">
 						<h1 class="mb-3 mt-5 bread">Meni</h1>
 						<p class="breadcrumbs"><span class="mr-2"><a href="index.php">Početna Stranica</a></span> <span>Meni</span></p>
 					</div>
@@ -54,8 +51,12 @@ if (isset($_POST["id"]) && $_POST["id"] != "") {
 	<iframe name="cart_deflect" style="display:none;"></iframe>
 
 	<section class="ftco-section">
-		<div class="container">
-			<div class="row">
+		<div class="container" >
+			<div class="row" >
+
+			<!-- added to cart notification div -->
+			<div class="notify"><span id="notifyType" class=""></span></div>
+
 				<?php
 				//redsoled stampanja za div-kartice(ima ih 9) : koje tipove jela svaka od kartica sadrzi 
 				$print_divs_jela = [
@@ -82,14 +83,14 @@ if (isset($_POST["id"]) && $_POST["id"] != "") {
 							if ($sub_tip_jela == "Hladna predjela") echo " - $daska";
 							if ($sub_tip_jela == "Pasta") echo " - $la_molisana";
 							echo "</h3>";
-							foreach ($array_jela as $jelo) {
-								$jelo->stampajJela($sub_tip_jela);
+							foreach ($menu as $item) {
+								if ($item['product_type'] == 'jelo') printItem($item, $sub_tip_jela);
 							}
 						}
 					} else {
 						echo "<h3 class=\"mb-5 heading-pricing ftco-animate\">$tip_jela</h3>";
-						foreach ($array_jela as $jelo) {
-							$jelo->stampajJela($tip_jela);
+						foreach ($menu as $item) {
+							if ($item['product_type'] == 'jelo') printItem($item, $tip_jela);
 						}
 					}
 					echo "</div>";
@@ -99,8 +100,7 @@ if (isset($_POST["id"]) && $_POST["id"] != "") {
 		</div>
 	</section>
 
-
-
+	
 
 
 	<?php include "footer.php"; ?>
@@ -109,6 +109,36 @@ if (isset($_POST["id"]) && $_POST["id"] != "") {
 
 	<?php include "skripte.php"; ?>
 
+	<script>
+        const order = (_id) => {
+            data = {
+                id: _id
+            };
+            data = JSON.stringify(data);
+            fetch('./order.php',{
+                method: "POST",
+                body: data,
+            }).then((response) => {
+                response.json().then((data)=> {
+                    console.log(data);
+					if (data.cart_count != 0) {
+						let cart_count = document.getElementById('cart_count');
+						cart_count.innerHTML = data.cart_count;
+						let cart_count_span = document.getElementById('cart_count_span');
+						cart_count_span.style.visibility = 'visible';
+						// let notification = document.getElementsByClassName('notify');
+						// notification.classList.toggle("active");
+						// let notificationType = document.getElementById('notifyType');
+						// notificationType.classList.toggle("success");
+						// setTimeout(function () {
+						// 	notification.classList.remove("active");
+						// 	notificationType.classList.remove("success");
+						// }, 1000);
+					}
+                });
+            })
+        }
+    </script>
 </body>
 
 </html>
